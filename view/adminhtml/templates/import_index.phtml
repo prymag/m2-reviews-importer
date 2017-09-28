@@ -1,0 +1,10 @@
+<div class="container">
+    <form action="<?php echo $block->getUrl('prymag_importer/import/upload'); ?>" method="post" >
+        <input type="text" name="sample"/>
+        <!-- 
+            It is important to always add the form_key field when creating forms or else it will not submit
+        -->
+        <input name="form_key" type="hidden" value="<?php echo $block->getFormKey() ?>" />
+        <input type="submit" name="submit" value="submit"/>
+    </form>
+</div>
