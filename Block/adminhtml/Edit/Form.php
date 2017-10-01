@@ -2,15 +2,22 @@
 
 namespace Prymag\ReviewsImporter\Block\Adminhtml\Edit;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Form extends \Magento\Backend\Block\Widget\Form\Generic {
     
+    protected $appDir;
+
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Filesystem $filesystem,
         array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
+        
+        $this->appDir = $filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath(); 
     }
 
     protected function _construct()
@@ -48,6 +55,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic {
             ['name' => 'name', 'label' => __('Department Name'), 'title' => __('Department Name'), 'required' => true]
         );*/
         $fieldsets['base']->addField(
+            'reviews_importer_note',
+            'link',
+            [
+                'title' => 'Download Sample File',
+                'value' => 'Download sample csv format',
+                'href' => 'http://www.google.com',
+                'label' => 'CSV Sample'
+            ]
+        );
+        $fieldsets['base']->addField(
             'reviews_import_file',
             'file',
             [
@@ -55,7 +72,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic {
                 'label' => __('Select File to Import'),
                 'title' => __('Select File to Import'),
                 'required' => true,
-                'class' => 'input-file'
+                'class' => 'input-file',
+                'after_element_html' => 'test',
             ]
         );
 
@@ -65,4 +83,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic {
         return parent::_prepareForm();
     }
 
+
+    public function getSampleCSV(){
+        return $this->appDir . 'code/Prymag/ReviewsImporter/sample.csv';
+    }
 }
