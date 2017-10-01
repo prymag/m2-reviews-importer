@@ -1,10 +1,19 @@
 <div class="container">
     <form action="<?php echo $block->getUrl('prymag_importer/import/upload'); ?>" method="post" >
-        <input type="text" name="sample"/>
+        
+        <fieldset class="fieldset">
+            <input type="text" name="sample"/>
+        </fieldset>
         <!-- 
             It is important to always add the form_key field when creating forms or else it will not submit
         -->
         <input name="form_key" type="hidden" value="<?php echo $block->getFormKey() ?>" />
-        <input type="submit" name="submit" value="submit"/>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action submit primary" title="<?php echo __('Start Import') ?>">
+                    <span><?php echo __('Import') ?></span>
+                </button>
+            </div>
+        </div>
     </form>
 </div>
