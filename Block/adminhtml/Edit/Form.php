@@ -49,18 +49,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic {
         );
 
         $fieldsets['base'] = $form->addFieldset('base_fieldset', ['legend' => __('Import CSV File')]);
-        /*$fieldsets['base']->addField(
-            'name',
-            'text',
-            ['name' => 'name', 'label' => __('Department Name'), 'title' => __('Department Name'), 'required' => true]
-        );*/
+        
         $fieldsets['base']->addField(
             'reviews_importer_note',
             'link',
             [
                 'title' => 'Download Sample File',
                 'value' => 'Download sample csv format',
-                'href' => 'http://www.google.com',
+                'href' => $this->getUrl('prymag_importer/*/index/', array('download_sample' => 'yes')),
                 'label' => 'CSV Sample'
             ]
         );
@@ -72,8 +68,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic {
                 'label' => __('Select File to Import'),
                 'title' => __('Select File to Import'),
                 'required' => true,
-                'class' => 'input-file',
-                'after_element_html' => 'test',
+                'class' => 'input-file'
             ]
         );
 
