@@ -25,4 +25,4 @@ $php bin/magento cache:flush
 
 * Saving of CSV to the database after file upload for this module was based on the module-magento-sample-data
 * Currently tested and working on version 2.2.
-* This should work fine as well on version 1.6+ as it looks like there's not much change on the review module that would affect the code for this importer module.
+* This should work fine as well on version 2.1.6+ as it looks like there's not much change on the review module that would affect the code for this importer module.
