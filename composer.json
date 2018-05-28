@@ -8,6 +8,7 @@
             "email": "info@mage2gen.com"
         }
     ],
+    "version": "0.1.0",
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
