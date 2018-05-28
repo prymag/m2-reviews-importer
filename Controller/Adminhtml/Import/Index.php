@@ -2,11 +2,18 @@
 
 namespace Prymag\ReviewsImporter\Controller\Adminhtml\Import;
 
+use Magento\Backend\App\Response\Http\FileFactory;
+use Magento\Framework\Filesystem\DirectoryList;
+
 class Index extends \Magento\Backend\App\Action {
     /**
         * @var \Magento\Framework\View\Result\PageFactory
         */
         protected $resultPageFactory;
+
+        protected $downloader;
+
+        protected $directory;
 
         /**
          * Constructor
@@ -16,10 +23,15 @@ class Index extends \Magento\Backend\App\Action {
          */
         public function __construct(
             \Magento\Backend\App\Action\Context $context,
-            \Magento\Framework\View\Result\PageFactory $resultPageFactory
+            \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+            FileFactory $fileFactory,
+    DirectoryList $directory
         ) {
             parent::__construct($context);
             $this->resultPageFactory = $resultPageFactory;
+
+            $this->downloader = $fileFactory;
+            $this->directory = $directory;
         }
 
         /**
@@ -59,18 +71,24 @@ class Index extends \Magento\Backend\App\Action {
         }
 
         public function downloadCsv( $filename ){
+//            if (file_exists($filename)) {
+//                //set appropriate headers
+//                header('Content-Description: File Transfer');
+//                header('Content-Type: application/csv');
+//                header('Content-Disposition: attachment; filename='.basename($filename));
+//                header('Expires: 0');
+//                header('Cache-Control: must-revalidate');
+//                header('Pragma: public');
+//                header('Content-Length: ' . filesize($filename));
+//                ob_clean();
+//                flush();
+//                readfile($filename);
+//            }
+
             if (file_exists($filename)) {
-                //set appropriate headers
-                header('Content-Description: File Transfer');
-                header('Content-Type: application/csv');
-                header('Content-Disposition: attachment; filename='.basename($filename));
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate');
-                header('Pragma: public');
-                header('Content-Length: ' . filesize($filename));
-                ob_clean();
-                flush();
-                readfile($filename);
+                $filePath = $this->directory->getPath("pub") . DIRECTORY_SEPARATOR . $filename;
+
+                return $this->downloader->create($filename, @file_get_contents($filePath));
             }
         }
 
