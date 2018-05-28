@@ -44,6 +44,7 @@ class Index extends \Magento\Backend\App\Action {
                 $heading = array(
                     'ID',
                     'PRODUCT',
+                    'SKU',
                     'EMAIL',
                     'NICKNAME',
                     'RATING',
@@ -71,20 +72,6 @@ class Index extends \Magento\Backend\App\Action {
         }
 
         public function downloadCsv( $filename ){
-//            if (file_exists($filename)) {
-//                //set appropriate headers
-//                header('Content-Description: File Transfer');
-//                header('Content-Type: application/csv');
-//                header('Content-Disposition: attachment; filename='.basename($filename));
-//                header('Expires: 0');
-//                header('Cache-Control: must-revalidate');
-//                header('Pragma: public');
-//                header('Content-Length: ' . filesize($filename));
-//                ob_clean();
-//                flush();
-//                readfile($filename);
-//            }
-
             if (file_exists($filename)) {
                 $filePath = $this->directory->getPath("pub") . DIRECTORY_SEPARATOR . $filename;
 
@@ -97,6 +84,7 @@ class Index extends \Magento\Backend\App\Action {
                 array(
                     '1',
                     '13',
+                    'F456',
                     'hasemail@mail.com',
                     'Emily',
                     '2',
@@ -107,7 +95,8 @@ class Index extends \Magento\Backend\App\Action {
                 ),
                 array(
                     '2',
-                    '50',
+                    '',
+                    'T567',
                     'roni_cost@example.com',
                     'Roni',
                     '5',
@@ -119,6 +108,7 @@ class Index extends \Magento\Backend\App\Action {
                 array(
                     '3',
                     '243',
+                    '',
                     '',
                     'Jamie',
                     '3',
