@@ -12,12 +12,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic {
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Framework\Filesystem $filesystem,
         array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         
-        $this->appDir = $filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath(); 
+        $this->appDir = $context->getFilesystem()->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
     }
 
     protected function _construct()
