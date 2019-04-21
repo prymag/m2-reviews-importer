@@ -34,6 +34,8 @@ class Upload extends \Magento\Backend\App\Action {
 
     protected $ratingFactory;
 
+    protected $objectManager;
+
     /**
      * @var array
      */
@@ -62,6 +64,8 @@ class Upload extends \Magento\Backend\App\Action {
         $this->customerFactory = $customerFactory;
         $this->ratingFactory = $ratingFactory;
         $this->reviewCollectionFactory = $reviewCollectionFactory;
+
+        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     }
 
     public function execute()
@@ -130,14 +134,21 @@ class Upload extends \Magento\Backend\App\Action {
             }
             $row = $data;
             $row['RATING_CODE'] = 'Rating'; // Fixed to "Rating" for now
-            
-            $review = $this->prepareReview($row);
-           
-            $productId = $row['PRODUCT_ID'];
+
+            $productId = $row['PRODUCT'];
 
             if (empty($productId)) {
-                continue;
+                //If product id is used as sku
+                $productId = $this->objectManager->get('Magento\Catalog\Model\Product')->getIdBySku($row['SKU']);
+                $row['PRODUCT'] = $productId;
+
+                if (empty($productId)) {
+                    continue;
+                }
             }
+
+            $review = $this->prepareReview($row);
+
             /** @var \Magento\Review\Model\ResourceModel\Review\Collection $reviewCollection */
             $reviewCollection = $this->reviewCollectionFactory->create();
             $reviewCollection->addFilter('entity_pk_value', $productId)
@@ -167,7 +178,7 @@ class Upload extends \Magento\Backend\App\Action {
         $review->setEntityId(
             $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
         )->setEntityPkValue(
-            $row['PRODUCT_ID']
+            $row['PRODUCT']
         )->setNickname(
             $row['NICKNAME']
         )->setTitle(
@@ -230,7 +241,7 @@ class Upload extends \Magento\Backend\App\Action {
             if (($option->getValue() == $row['RATING']) && !empty($optionId)) {
                 $rating->setReviewId($review->getId())->addOptionVote(
                     $optionId,
-                    $row['PRODUCT_ID']
+                    $row['PRODUCT']
                 );
             }
         }
