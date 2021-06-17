@@ -254,7 +254,7 @@ class Upload extends \Magento\Backend\App\Action {
      */
     protected function getRating($rating){
         $ratingCollection = $this->ratingFactory->create()->getResourceCollection();
-        if (!$this->ratings[$rating]) {
+        if (is_null($this->ratings) || is_null($this->ratings[$rating])) {
             $this->ratings[$rating] = $ratingCollection->addFieldToFilter('rating_code', $rating)->getFirstItem();
         }
         return $this->ratings[$rating];
